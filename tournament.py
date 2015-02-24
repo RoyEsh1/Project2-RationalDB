@@ -121,9 +121,9 @@ def swissPairings():
     for player in standings:
 
         # Building dictionary of all players (players_pool), while extracting from the database player's wins and loses.
-        c.execute("SELECT loser from matches where winner=" + str(player[0]))
+        c.execute("SELECT loser from matches where winner=%s", (player[0],))
         won_against = [i[0] for i in c.fetchall()]
-        c.execute("SELECT winner from matches where loser=" + str(player[0]))
+        c.execute("SELECT winner from matches where loser=%s", (player[0],))
         lost_against = [i[0] for i in c.fetchall()]
         games_played = sum([[i, 1] for i in won_against], []) + sum([[i, 0] for i in lost_against], [])
         players_pool[player[0]] = games_played
